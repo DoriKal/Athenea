@@ -81,15 +81,16 @@ router.post("/createPregunta/:jsonPregunta", function (req, res){
 router.put("/updatePregunta/:jsonDatos", function(req, res){
 	var jsonDatos = JSON.parse(req.params.jsonDatos);
 	connection.query("UPDATE pregunta SET "+
-	"pre_id_area_conocimiento = ?, pre_id_grado_dificultad = ?, pre_id_tipo_pregunta = ?, "+
-	"pre_id_autor_reactivo = ?, pre_pregunta  = ?, pre_opcionA = ?, pre_opcionB = ?, "+
-	"pre_opcionC = ?, pre_opcionD = ?, pre_respuesta_correcta = ?, pre_justificación "+
-	"WHERE id_pregunta = ?",
+	"pre_id_area_conocimiento=?, pre_id_grado_dificultad=?, pre_id_tipo_pregunta=?, "+
+	"pre_id_autor_reactivo=?, pre_pregunta=?, pre_opcionA=?, pre_opcionB=?, "+
+	"pre_opcionC=?, pre_opcionD=?, pre_respuesta_correcta=?, pre_justificación "+
+	"WHERE id_pregunta=?",
 		[jsonDatos.pre_id_area_conocimiento, jsonDatos.pre_id_grado_dificultad, 
 		jsonDatos.pre_id_tipo_jsonDatos.pregunta,jsonDatos.pre_id_autor_reactivo, 
 		jsonDatos.pre_jsonDatos.pregunta , jsonDatos.pre_opcionA, jsonDatos.pre_opcionB, 
 		jsonDatos.pre_opcionC, jsonDatos.pre_opcionD, jsonDatos.pre_respuesta_correcta,
-		jsonDatos.pre_justificación,jsonDatos.id_pregunta], function(err, results, fiels){
+		jsonDatos.pre_justificación,jsonDatos.id_pregunta],
+		function(err, results, fiels){
 			if(err){
 				console.log("ERROR: "+err.message);
 				throw err;
@@ -114,7 +115,8 @@ function getJsonCifrado(jsonPregunta){
 		"pre_opcionB"  : encriptacion_athenea.cifrar(jsonPregunta.pre_opcionB),
 		"pre_opcionC"  : encriptacion_athenea.cifrar(jsonPregunta.pre_opcionC),
 		"pre_opcionD"  : encriptacion_athenea.cifrar(jsonPregunta.pre_opcionD),
-		"pre_opcionCorrecta" : encriptacion_athenea.cifrar(jsonPregunta.pre_opcionCorrecta),
+		"pre_respuesta_correcta" : 
+		encriptacion_athenea.cifrar(jsonPregunta.pre_respuesta_correcta),
 		"pre_id_area_conocimiento" : jsonPregunta.pre_id_area_conocimiento,
 		"pre_id_grado_dificultad" : jsonPregunta.pre_id_grado_dificultad,
 		"pre_id_tipo_pregunta" : jsonPregunta.pre_id_tipo_pregunta,
