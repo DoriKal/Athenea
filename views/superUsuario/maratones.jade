@@ -10,9 +10,9 @@ block content
             div(ng-repeat="maraton in maratones", class="contentZona contentMaraton")
                 x-trigger(icon="menu", class="menu")
                     core-dropdown(class="with-margin")
-                        core-item(ng-click="abrirModalEditMaraton(maraton.id_maraton, true)") editar
-                        core-item(ng-click="abrirModalEliminarMaraton(maraton.id_maraton, true)") eliminar
-                        core-item(ng-click="abrirConfiguracionMaraton(maraton.id_maraton, true)") configuración
+                        core-item(ng-click="abrirModalEditMaraton(maraton.id_maraton)") editar
+                        core-item(ng-click="abrirModalEliminarMaraton(maraton.id_maraton)") eliminar
+                        core-item(ng-click="abrirConfiguracionMaraton(maraton.id_maraton)") configuración
                 h3 {{maraton.mar_nombre}}
 
         paper-dialog(heading="Nuevo maraton", backdrop, id="modalRegMaraton",
@@ -41,16 +41,17 @@ block content
     div(ng-controller="maratonesController")
         div(id="modalConfig", hidden)
             div(class="contentConfig")
-                core-icon-button(icon="close", ng-click="abrirConfiguracionMaraton()", title="Cerrar")
+                core-icon-button(icon="close", ng-click="cerrarConfiguracionMaraton()", title="Cerrar")
             paper-tabs(selected="0", class="tabs-config")
                 paper-tab(class="tabConfigMaratones", config="competidores", tabSelectedConf) Competidores
                 paper-tab(class="tabConfigMaratones", config="preguntas") Preguntas
                 paper-tab(class="tabConfigMaratones", config="competencia") Competencia
+            
 
             div(id="competidores", class="divConfig")
                 div(class="contentConfig")
                     core-icon-button(icon="add", ng-click="abrirModalAgregarUsuarioMaraton()", title="Agregar un competidor", class="iconAdd")
-                h3(ng-repeat="competidor in competidores", class="contentZona") {{competidor.usu_nombre}}
+                h3(ng-repeat="competidor in competidoresX", class="contentZona") {{competidor.usu_nombre}}
 
 
                 paper-dialog(heading="Crear un competidor para este maraton", backdrop, id="modalRegCompetidorMaraton")
