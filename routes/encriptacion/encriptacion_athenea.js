@@ -37,7 +37,7 @@ encriptacion_athenea.prototype.decifrar = function(palabraADecifrar){
 		var palabraDecifrada  = decipher.update(palabraADecifrar, "hex", "utf8");
 		palabraDecifrada	 += decipher.final("utf8");
 	}catch(e){
-		console.log(e.message);
+		console.log(e.message + "  -->  " + palabraADecifrar);
 	}
 	return palabraDecifrada;
 };
