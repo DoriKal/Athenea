@@ -4,6 +4,7 @@ function maratonesController($scope, $http) {
 	$scope.maratonEditar;
 	$scope.maratonEliminar;
 	$scope.maratonConfiguracion;
+	$scope.competidoresX = [{usu_nombre : "x"}];
 	$scope.socket = io();
 
 	$scope.getMaratones = function(){
@@ -93,7 +94,6 @@ function maratonesController($scope, $http) {
 
 	/*	Aquí empieza la funcionalidad de todo lo referente al maratón 	*/
 
-	$scope.competidores = [];
 	$scope.meta;
     $scope.transition;
     $scope.state = {
@@ -106,7 +106,7 @@ function maratonesController($scope, $http) {
         $scope.meta.type = 'transition';
       }
       return $scope.meta;
-    }
+    };
 
     $scope.setup = function () {
       var target = document.getElementById('modalConfig');
@@ -117,22 +117,30 @@ function maratonesController($scope, $http) {
 
       $scope.transition = $scope.getMeta().byId("core-transition-right");
       $scope.transition.setup(target);
-    }
+    };
 
     $scope.getCompetidoresEnMaraton = function (id){
-    	$http.get("/queriesMaratones/getCompetidoresEnMaraton/" + id )
-    	.success(function (jsonDatos){
-    		$scope.competidores = jsonDatos;
+    	url = "/queriesMaratones/getCompetidoresEnMaraton/" + id;
+    	console.log(url);
+    	$http.get(url).success(function (competidores){
+    		console.log(competidores);
+    		$scope.competidoresX = competidores;
     	});
-    	console.log("competidores json : "+JSON.stringify($scope.competidores));
+    	console.log($scope.competidoresX);
     }
 
-    $scope.abrirConfiguracionMaraton = function (id, abrirOCerrar) {
+    $scope.abrirConfiguracionMaraton = function (id) {
 	    var target = document.getElementById('modalConfig');
-	    $scope.state.opened = abrirOCerrar != null;
-	    $scope.transition.go(target, $scope.state);
     	document.getElementById("textoCompetidorIdMaraton").value = id;
     	$scope.getCompetidoresEnMaraton(id);
+    	$scope.state.opened = true;
+	    $scope.transition.go(target, $scope.state);
+    };
+
+    $scope.cerrarConfiguracionMaraton = function (){
+	    var target = document.getElementById('modalConfig');
+	    $scope.state.opened = false;
+	    $scope.transition.go(target, $scope.state);
     };
 
     document.addEventListener('polymer-ready', function () {
