@@ -84,7 +84,20 @@ io.sockets.on("connection", function(socket){
     socket.emit(mensaje);
   });
 
+  socket.on("nuevaPregunta", function(mensaje){
+    console.log("Ya se registro una pregunta: "+mensaje);
+    io.emit(mensaje);
+  });
 
+  socket.on("preguntaEditada", function(mensaje){
+    console.log("Alguien edito una pregunta: "+mensaje);
+    io.emit(mensaje);
+  });
+
+  socket.on("preguntaEliminada", function(mensaje){
+    console.log("Alguien eliminó una pregunta: "+mensaje);
+    io.emit(mensaje);
+  });
 
 });
 

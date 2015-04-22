@@ -42,7 +42,7 @@ router.get("/", function(req, res){
 					throw err;
 				}
 				res.send(getJsonDecifrado(results));
-				console.log("Pregunta: " + results[0].pre_pregunta);
+				console.log("Pregunta: ");
 			});
 });
 
@@ -54,20 +54,22 @@ router.post("/createPregunta/:jsonPregunta", function (req, res){
 			"pre_respuesta_correcta, pre_id_area_conocimiento,"+
 			"pre_id_grado_dificultad, pre_id_tipo_pregunta, pre_id_autor_reactivo) "+
 			"VALUES(?,?,?,?,?,?,?,?,?,?)", [
-				jsonPregunta.pregunta,
-				jsonPregunta.opcionA,
-				jsonPregunta.opcionB,
-				jsonPregunta.opcionC,
-				jsonPregunta.opcionD,
-				jsonPregunta.opcionCorrecta,
-				jsonPregunta.areaConocimiento,
-				jsonPregunta.gradoDificultad,
-				jsonPregunta.tipoPregunta,
-				jsonPregunta.autorReactivo
+				jsonPregunta.pre_pregunta,
+				jsonPregunta.pre_opcionA,
+				jsonPregunta.pre_opcionB,
+				jsonPregunta.pre_opcionC,
+				jsonPregunta.pre_opcionD,
+				jsonPregunta.pre_respuesta_correcta,
+				jsonPregunta.pre_id_area_conocimiento,
+				jsonPregunta.pre_id_grado_dificultad,
+				jsonPregunta.pre_id_tipo_pregunta,
+				jsonPregunta.pre_id_autor_reactivo	
 			], function (err, results, fields){
 				if (err){
 					console.log(err.message);
 				}
+				console.log(JSON.stringify(jsonPregunta));
+				console.log(results);
 				res.send("Registro correcto");
 				console.log("Registro de pregunta correcto");
 			});
@@ -76,18 +78,47 @@ router.post("/createPregunta/:jsonPregunta", function (req, res){
 	}
 });
 
+router.put("/updatePregunta/:jsonDatos", function(req, res){
+	var jsonDatos = JSON.parse(req.params.jsonDatos);
+	connection.query("UPDATE pregunta SET 
+	pre_id_area_conocimiento = ?, pre_id_grado_dificultad = ?, pre_id_tipo_pregunta = ?, 
+	pre_id_autor_reactivo = ?, pre_pregunta  = ?, pre_opcionA = ?, pre_opcionB = ?, 
+	pre_opcionC = ?, pre_opcionD = ?, pre_respuesta_correcta = ?, pre_justificación 
+	WHERE id_pregunta = ?",
+		[jsonDatos.pre_id_area_conocimiento, jsonDatos.pre_id_grado_dificultad, 
+		jsonDatos.pre_id_tipo_jsonDatos.pregunta,jsonDatos.pre_id_autor_reactivo, 
+		jsonDatos.pre_jsonDatos.pregunta , jsonDatos.pre_opcionA, jsonDatos.pre_opcionB, 
+		jsonDatos.pre_opcionC, jsonDatos.pre_opcionD, jsonDatos.pre_respuesta_correcta,
+		jsonDatos.pre_justificación,jsonDatos.id_pregunta], function(err, results, fiels){
+			if(err){
+				console.log("ERROR: "+err.message);
+				throw err;
+			}
+			console.log("Modificacion correcta!");
+	});
+	res.send("true");
+});
+
+router.delete("/deleteZona/:jsonDatos", function(req, res){
+	var jsonDatos = JSON.parse(req.params.jsonDatos);
+	connection.query("DELETE FROM zona WHERE id_zona=?",
+		[jsonDatos.id_zona], function(){
+			res.send("Zona eliminada correctamente!");
+		});
+});
+
 function getJsonCifrado(jsonPregunta){
 	return {
-		"pregunta" : encriptacion_athenea.cifrar(jsonPregunta.pregunta),
-		"opcionA"  : encriptacion_athenea.cifrar(jsonPregunta.opcionA),
-		"opcionB"  : encriptacion_athenea.cifrar(jsonPregunta.opcionB),
-		"opcionC"  : encriptacion_athenea.cifrar(jsonPregunta.opcionC),
-		"opcionD"  : encriptacion_athenea.cifrar(jsonPregunta.opcionD),
-		"opcionCorrecta" : encriptacion_athenea.cifrar(jsonPregunta.opcionCorrecta),
-		"areaConocimiento" : jsonPregunta.areaConocimiento,
-		"gradoDificultad" : jsonPregunta.gradoDificultad,
-		"tipoPregunta" : jsonPregunta.tipoPregunta,
-		"autorReactivo" : jsonPregunta.autorReactivo
+		"pre_pregunta" : encriptacion_athenea.cifrar(jsonPregunta.pre_pregunta),
+		"pre_opcionA"  : encriptacion_athenea.cifrar(jsonPregunta.pre_opcionA),
+		"pre_opcionB"  : encriptacion_athenea.cifrar(jsonPregunta.pre_opcionB),
+		"pre_opcionC"  : encriptacion_athenea.cifrar(jsonPregunta.pre_opcionC),
+		"pre_opcionD"  : encriptacion_athenea.cifrar(jsonPregunta.pre_opcionD),
+		"pre_opcionCorrecta" : encriptacion_athenea.cifrar(jsonPregunta.pre_opcionCorrecta),
+		"pre_id_area_conocimiento" : jsonPregunta.pre_id_area_conocimiento,
+		"pre_id_grado_dificultad" : jsonPregunta.pre_id_grado_dificultad,
+		"pre_id_tipo_pregunta" : jsonPregunta.pre_id_tipo_pregunta,
+		"pre_id_autor_reactivo" : jsonPregunta.pre_id_autor_reactivo
 	};
 }
 
@@ -98,13 +129,13 @@ function getJsonDecifrado(jsonPreguntaCifrada){
 			"id_pregunta"  : jsonPreguntaCifrada[i].id_pregunta,
 			"pre_pregunta" : encriptacion_athenea.decifrar(
 				jsonPreguntaCifrada[i].pre_pregunta),
-			"opcionA" : encriptacion_athenea.decifrar(
+			"pre_opcionA" : encriptacion_athenea.decifrar(
 				jsonPreguntaCifrada[i].pre_opcionA),
-			"opcionB" : encriptacion_athenea.decifrar(
+			"pre_opcionB" : encriptacion_athenea.decifrar(
 				jsonPreguntaCifrada[i].pre_opcionB),
-			"opcionC" : encriptacion_athenea.decifrar(
+			"pre_opcionC" : encriptacion_athenea.decifrar(
 				jsonPreguntaCifrada[i].pre_opcionC),
-			"opcionD" : encriptacion_athenea.decifrar(
+			"pre_opcionD" : encriptacion_athenea.decifrar(
 				jsonPreguntaCifrada[i].pre_opcionD)
 		};
 	}

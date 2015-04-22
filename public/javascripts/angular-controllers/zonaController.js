@@ -85,9 +85,6 @@ function zonaController($scope, $http){
 		console.log("Alguien eliminó una zona entonces recargare las zonas");
 		$scope.getZonas();
 	});
-	
-
-
 
 	$scope.getZonas();
 }

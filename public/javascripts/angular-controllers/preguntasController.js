@@ -1,6 +1,9 @@
 function preguntasController($scope, $http){
 
 	$scope.preguntas = [];
+	$scope.zonaEditar;
+	$scope.zonaEliminar;
+	$scope.socket = io();
 
 	$scope.getPreguntas = function (){
 		$http.get("/queriesPreguntas/").success(function (jsonDatos){
@@ -20,7 +23,37 @@ function preguntasController($scope, $http){
 			$http.post("/queriesPreguntas/createPregunta/" + encodeURIComponent(json))
 			.success(function(datos){
 				console.log(datos);
+				$scope.socket.emit("nuevaPregunta", "nuevaPregunta");
 			});
+		}
+	};
+
+	$scope.abrirModalEditPregunta = function(idZona){
+		$scope.preguntaEditar 		= $scope.getPreguntaPorId(idPregunta);
+		$scope.nombrePreguntaEditar = $scope.PreguntaEditar.pre_pregunta;
+		document.getElementById("modalEditPregunta").toggle();
+	};
+
+	$scope.getPreguntaPorId = function(id){
+		for(var i = 0; i < $scope.pregunta.length; i++){
+			if($scope.pregunta[i].idPregunta == id){
+				return $scope.pregunta[i];
+			}
+		}
+		return null;
+	};
+
+	$scope.editarPregunta = function(){
+		if ($scope.nombrePreguntaEditar.length >= 8){
+			var json = {
+				idPregunta : $scope.preguntaEditar.idPregunta,
+				zon_nombre_editar : $scope.nombrePreguntaEditar
+			};
+			$http.put("/queriesPreguntas/updatePregunta/"+JSON.stringify(json))
+				.success(function(datos){
+					console.log(datos);
+					$scope.socket.emit("zonaEditada", "zonaEditada");
+				});
 		}
 	};
 
@@ -170,22 +203,27 @@ function preguntasController($scope, $http){
 
 	$scope.getJsonPregunta = function(){
 		return {
-			"pregunta" : $scope.textoAgregarPregunta,
-			"opcionA"  : $scope.textoOpcionA,
-			"opcionB"  : $scope.textoOpcionB,
-			"opcionC"  : $scope.textoOpcionC,
-			"opcionD"  : $scope.textoOpcionD,
-			"opcionCorrecta" : $scope.getRespuestaCorrecta("selectRespuestaCorrecta"),
-			"areaConocimiento" : 
+			"pre_pregunta" : $scope.textoAgregarPregunta,
+			"pre_opcionA"  : $scope.textoOpcionA,
+			"pre_opcionB"  : $scope.textoOpcionB,
+			"pre_opcionC"  : $scope.textoOpcionC,
+			"pre_opcionD"  : $scope.textoOpcionD,
+			"pre_respuesta_correcta" : $scope.getRespuestaCorrecta("selectRespuestaCorrecta"),
+			"pre_id_area_conocimiento" : 
 			$scope.getDatoValidoSelectShadoRootById("selectAreaConocimiento"),
-			"tipoPregunta" : 
+			"pre_id_tipo_pregunta" : 
 			$scope.getDatoValidoSelectShadoRootById("selectTipoPreguntas"),
-			"gradoDificultad" : 
+			"pre_id_grado_dificultad" : 
 			$scope.getDatoValidoSelectShadoRootById("selectGradoDificultad"),
-			"autorReactivo" : 1
+			"pre_id_autor_reactivo" : 1
 		};
 	};
 
+	$scope.socket.on("nuevaPregunta", function(msg){
+		console.log("Alguien creó una nueva pregunta");
+		$scope.getPreguntas();
+	});
+	
 	$scope.getPreguntas();
 
 }

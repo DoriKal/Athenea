@@ -15,6 +15,8 @@ var queriesGradosDeDificultad = require("./routes/queries/queriesGradosDeDificul
 var queriesTiposDePreguntas = require("./routes/queries/queriesTiposDePreguntas");
 var queriesPreguntas = require("./routes/queries/queriesPreguntas");
 
+var test = require("./routes/test/test");
+
 var app = express();
 
 // view engine setup
@@ -39,6 +41,8 @@ app.use('/queriesAreasConocimiento', queriesAreasConocimiento);
 app.use('/queriesGradosDeDificultad', queriesGradosDeDificultad);
 app.use('/queriesTiposDePreguntas', queriesTiposDePreguntas);
 app.use('/queriesPreguntas', queriesPreguntas);
+
+app.use('/test', test);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
