@@ -122,29 +122,17 @@ function maratonesController($scope, $http) {
     $scope.getCompetidoresEnMaraton = function (id){
     	$http.get("/queriesMaratones/getCompetidoresEnMaraton/" + id )
     	.success(function (jsonDatos){
-    		console.log("in: "+JSON.stringify($scope.competidores));
-    		$scope.set(jsonDatos);
+    		$scope.competidores = jsonDatos;
     	});
-    	console.log("out: "+JSON.stringify($scope.competidores));
+    	console.log("competidores json : "+JSON.stringify($scope.competidores));
     }
 
-    $scope.add = function (){
-    	$scope.competidores = [{"uma_id_usuario":8,"uma_id_maraton":2,"id_usuario":8,"usu_tipo_usuario":3,"usu_nombre":"erkgnwrll","usu_usuario":"lkwrnvlekkaergwetd","usu_contra":"f17453f69c3d842b1dcc870cc3e5e3"},{"uma_id_usuario":9,"uma_id_maraton":2,"id_usuario":9,"usu_tipo_usuario":3,"usu_nombre":"erkgnwrll","usu_usuario":"lkwrnvlekkaergwetdlrg","usu_contra":"f17453f69c3d842b1dcc870cc3e5e3"},{"uma_id_usuario":11,"uma_id_maraton":2,"id_usuario":11,"usu_tipo_usuario":3,"usu_nombre":"kjl ljnl","usu_usuario":"kkjkjnk","usu_contra":"f6744eef982583"}];
-    	console.log($scope.competidores);
-    };
-
-    $scope.set = function (jsonDatos){
-    	$scope.competidores = jsonDatos;
-    };
-
     $scope.abrirConfiguracionMaraton = function (id, abrirOCerrar) {
-    	if (id != null){
-    		document.getElementById("textoCompetidorIdMaraton").value = id;
-    		$scope.getCompetidoresEnMaraton(id);
-    	}
 	    var target = document.getElementById('modalConfig');
 	    $scope.state.opened = abrirOCerrar != null;
 	    $scope.transition.go(target, $scope.state);
+    	document.getElementById("textoCompetidorIdMaraton").value = id;
+    	$scope.getCompetidoresEnMaraton(id);
     };
 
     document.addEventListener('polymer-ready', function () {
@@ -192,7 +180,5 @@ function maratonesController($scope, $http) {
     		});
     	}
     };
-
-    $scope.getCompetidoresEnMaraton(1);
 
 }

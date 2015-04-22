@@ -51,8 +51,6 @@ block content
                 div(class="contentConfig")
                     core-icon-button(icon="add", ng-click="abrirModalAgregarUsuarioMaraton()", title="Agregar un competidor", class="iconAdd")
                 h3(ng-repeat="competidor in competidores", class="contentZona") {{competidor.usu_nombre}}
-                button(ng-click="add()")
-                    add
 
 
                 paper-dialog(heading="Crear un competidor para este maraton", backdrop, id="modalRegCompetidorMaraton")
