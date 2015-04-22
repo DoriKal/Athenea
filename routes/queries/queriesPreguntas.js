@@ -15,8 +15,8 @@ router.get("/", function(req, res){
 	connection.query("SELECT "+
 			/*	Datos pregunta	*/
 			"id_pregunta, pre_pregunta, pre_opcionA,"+
-			"pre_opcionB, pre_opcionC, pre_opcionC, pre_respuesta_correcta,"+
-			"pre_justificación,"+
+			"pre_opcionB, pre_opcionC, pre_opcionC,pre_opcionD,"+
+			"pre_respuesta_correcta,pre_justificación,"+
 			/* 	Datos area del conocimiento	 */
 			"id_area_conocimiento, arc_nombre,"+
 			/*	Datos grado de dificultad	 */
@@ -42,7 +42,8 @@ router.get("/", function(req, res){
 					throw err;
 				}
 				res.send(getJsonDecifrado(results));
-				console.log("Pregunta: ");
+				console.log("Pregunta: " + JSON.stringify(getJsonDecifrado(results)));
+				console.log("hdcyj xXDFEDF " + JSON.stringify(results));
 			});
 });
 
