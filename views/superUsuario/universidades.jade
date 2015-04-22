@@ -1,0 +1,39 @@
+extends layout
+
+block content
+    div(ng-controller="UniversidadesController")
+        paper-fab(icon="add", title="Nueva universidad", style="background-color:#259b24",
+        ng-click="abrirModalRegUniversidad()")
+        div
+            div(ng-repeat="universidad in universidades", class="contentZona")
+                paper-button(class="buttonEditarZona", ng-click="abrirModalEditUniversidad(universidad.id_escuela_o_universidad)")
+                    core-icon(icon="create")
+                paper-button(class="buttonEliminarZona", ng-click="abrirModalEliminarUniversidad(universidad.id_escuela_o_universidad)")
+                    core-icon(icon="delete")
+                h3 {{universidad.uni_nombre}}
+
+
+        paper-dialog(heading="Crear nueva universidad", backdrop, id="modalRegUniversidad",
+            transition="core-transition-center")
+            select(id="opcZonaRegUniversidad")
+                option(ng-repeat="zona in zonas", id_zona="{{zona.id_zona}}") {{zona.zon_nombre}}
+            paper-input-decorator(label="Nombre de la nueva universidad", floatingLabel, autoValidate, error="Minimo 8 caracteres")
+                input(type="text", ng-model="uniNuevoNombre", required, minlength="8")
+            br
+            paper-button(raised, ng-click="crearUniversidad()") Registrar
+
+        paper-dialog(heading="Editar {{universidadEditar.uni_nombre}}", backdrop, id="modalEditUniversidad",
+            transition="core-transition-center")
+            select(id="opcZonaEditUniversidad")
+                option(ng-repeat="zona in zonas", id_zona="{{zona.id_zona}}") {{zona.zon_nombre}}
+            paper-input-decorator(label="Nombre de la nueva universidad", floatingLabel, autoValidate, error="Minimo 8 caracteres")
+                input(type="text", ng-model="uniNombreEditar", required, minlength="8")
+            br
+            paper-button(raised, ng-click="editarUniversidad()") Guardar cambios
+
+        paper-dialog(heading='Eliminar "{{universidadEliminar.uni_nombre}}"', backdrop, id="modalEliminarUniversidad", transition="core-transition-center")
+            paper-button(raised, ng-click="eliminarUniversidad()") eliminar
+
+
+    script(src="/javascripts/socket.io.js")
+    script(src="/javascripts/angular-controllers/universidadesController.js")

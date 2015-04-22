@@ -1,0 +1,158 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('athenea:server');
+var http = require('http');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+var io = require("socket.io").listen(server);
+
+io.sockets.on("connection", function(socket){
+
+  socket.on("nuevaZona", function(mensaje){
+    console.log("Ya se registro una zona: "+mensaje);
+    io.emit(mensaje);
+  });
+  
+  socket.on("zonaEditada", function(mensaje){
+    console.log("Alguien edito una zona: "+mensaje);
+    io.emit(mensaje);
+  });
+
+  socket.on("zonaEliminada", function(mensaje){
+    console.log("Alguien eliminó una zona: "+mensaje);
+    io.emit(mensaje);
+  });
+
+  socket.on("nuevaUniversidad", function(mensaje){
+    console.log("Alguien registro una universidad");
+    io.emit(mensaje);
+  });
+
+  socket.on("universidadEditada", function(mensaje){
+    console.log("Alguien editó una universidad"+mensaje);
+    io.emit(mensaje);
+  });
+
+  socket.on("universidadEliminada", function(mensaje){
+    console.log("Alguien eliminó una universidad");
+    io.emit(mensaje);
+  });
+
+  socket.on("nuevoMaraton", function(mensaje){
+    console.log("Alguien registro un maratón");
+    io.emit(mensaje);
+  });
+
+  socket.on("maratonEditado", function(mensaje){
+    console.log("Alguien editó un maratón"+mensaje);
+    socket.emit(mensaje);
+  });
+
+  socket.on("maratonEliminado", function(mensaje){
+    console.log("Alguien eliminó un maratón");
+    socket.emit(mensaje);
+  });
+
+  socket.on("nuevaAreaDelConocimiento", function(mensaje){
+    console.log("Alguien registro un área del conocimiento");
+    socket.emit(mensaje);
+  });
+
+  socket.on("areaDelConocimientoEditada", function(mensaje){
+    console.log("Alguien editó un área del conocimiento");
+    socket.emit(mensaje);
+  });
+
+  socket.on("areaDelConocimientoEliminada", function(mensaje){
+    console.log("Alguien eliminó un área del conocimiento");
+    socket.emit(mensaje);
+  });
+
+
+
+});
+
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

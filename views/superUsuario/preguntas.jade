@@ -1,0 +1,185 @@
+extends layout
+
+block content
+    link(rel="import" href="/bower_components/paper-input/paper-autogrow-textarea.html")
+    link(rel="import" href="/bower_components/paper-input/paper-char-counter.html")
+
+    div(class="contentOpciones" ng-controller="preguntasController")
+        core-icon-button(icon="add", class="iconAdd", ng-click="abrirModalRegPregunta()", title="Agregar pregunta")
+        paper-dialog(heading="Crear nueva pregunta", backdrop, id="modalRegPregunta")
+            table(width="500px")
+                tr(ng-controller="preguntasConfigController")
+                    td(colspan="2")
+                        select(id="selectAreaConocimiento")
+                            option Area del conocimiento
+                            option(ng-repeat="areaConocimiento in areasConocimiento", arc="{{areaConocimiento.id_area_conocimiento}}", datoValido="{{areaConocimiento.id_area_conocimiento}}") {{areaConocimiento.arc_nombre}}
+                tr(ng-controller="preguntasConfigController")
+                    td
+                        select(id="selectTipoPreguntas")
+                            option Tipo de pregunta
+                            option(ng-repeat="tipoDePregunta in tiposDePreguntas", arc="{{tipoDePregunta.id_tipo_pregunta}}", datoValido="{{tipoDePregunta.id_tipo_pregunta}}") {{tipoDePregunta.tip_nombre}}
+                    td
+                        select(id="selectGradoDificultad")
+                            option Grado de dificultad
+                            option(ng-repeat="gradoDeDificultad in gradosDeDificultad", arc="{{gradoDeDificultad.id_grado_dificultad}}", datoValido="{{gradoDeDificultad.id_grado_dificultad}}") {{gradoDeDificultad.grd_nombre}}
+                tr
+                    td(colspan="2")
+                        paper-input-decorator(label="Pregunta", floatingLabel, error="¡La pregunta no debe exceder 600 caracteres!")
+                            paper-autogrow-textarea
+                                textarea(id="textPregunta", maxlength="600", ng-model="textoAgregarPregunta")
+                            paper-char-counter(class="counter", target="textPregunta")
+                tr
+                    td
+                        paper-input-decorator(label="Respuesta A", floatingLabel, error="¡Las respuestas no deben exceder 100 caracteres!")
+                            paper-autogrow-textarea
+                                textarea(id="respuestaA", maxlength="100", ng-model="textoOpcionA")
+                            paper-char-counter(class="counter", target="respuestaA")
+                    td
+                        paper-input-decorator(label="Respuesta B", floatingLabel, error="¡Las respuestas no deben exceder 100 caracteres!")
+                            paper-autogrow-textarea
+                                textarea(id="respuestaB", maxlength="100", ng-model="textoOpcionB")
+                            paper-char-counter(class="counter", target="respuestaB")
+                tr
+                    td
+                        paper-input-decorator(label="Respuesta C", floatingLabel, error="¡Las respuestas no deben exceder 100 caracteres!")
+                            paper-autogrow-textarea
+                                textarea(id="respuestaC", maxlength="100", ng-model="textoOpcionC")
+                            paper-char-counter(class="counter", target="respuestaC")
+                    td
+                        paper-input-decorator(label="Respuesta D", floatingLabel, error="¡Las respuestas no deben exceder 100 caracteres!")
+                            paper-autogrow-textarea
+                                textarea(id="respuestaD", maxlength="100", ng-model="textoOpcionD")
+                            paper-char-counter(class="counter", target="respuestaD")
+                tr
+                    td(colspan="2")
+                        select(id="selectRespuestaCorrecta")
+                             option Respuesta correcta
+                             option(datoValido) Opcion A
+                             option(datoValido) Opcion B
+                             option(datoValido) Opcion C
+                             option(datoValido) Opcion D
+            br
+            paper-button(raised, ng-click="crearPregunta()") Registrar
+            label(id="mostrarErrorPregunta")
+    div(ng-controller="preguntasController")
+        div(ng-repeat="pregunta in preguntas") {{pregunta.pre_pregunta}}
+
+
+
+
+
+    // Configuraciones de las preguntas
+
+    div(ng-controller="preguntasConfigController")
+        div(class="contentConfig")
+            core-icon-button(icon="settings" ng-click="stuff()", title="Configuraciones")
+
+        //Aquí empiezan las configuraciones de las preguntas
+        div(id="modalConfig", hidden)
+            div(class="contentConfig")
+                core-icon-button(icon="close", ng-click="stuff()", title="Cerrar")
+            paper-tabs(selected="0", class="tabs-config")
+                paper-tab(class="tabConfigPreguntas", config="areasConocimiento", tabSelectedConf) Áreas del conocimiento
+                paper-tab(class="tabConfigPreguntas", config="gradoDificultad") Grados de dificultad
+                paper-tab(class="tabConfigPreguntas", config="tipoPreguntas") Tipos de pregunta
+
+            // Aquí empiezan los config de áreas del conocimiento
+
+            div(id="areasConocimiento", class="divConfig")
+                div(ng-repeat="areaConocimiento in areasConocimiento", class="contentZona")
+                    paper-button(class="buttonEditarZona", ng-click="abrirModalEditAreaConocimiento(areaConocimiento.id_area_conocimiento)")
+                        core-icon(icon="create")
+                    paper-button(class="buttonEliminarZona", ng-click="abrirModalEliminarAreaConocimiento(areaConocimiento.id_area_conocimiento)")
+                        core-icon(icon="delete")
+                    h3 {{areaConocimiento.arc_nombre}}
+                div(class="contentConfig")
+                    core-icon-button(class="iconAdd", icon="add", title="Agregar Área del conocimiento"
+                    ng-click="abrirModalCrearAreaConocimiento()")
+
+
+                paper-dialog(heading="Crear nueva área del conocimiento", backdrop, id="modalRegAreaConocimiento")
+                    paper-input-decorator(label="Nombre del área del conocimiento", floatingLabel, autoValidate, error="Minimo 8 caracteres")
+                        input(type="text", ng-model="areaConocimientoNuevoNombre", required, minlength="8")
+                    br
+                    paper-button(raised, ng-click="crearAreaConocimiento()") Registrar
+
+
+                paper-dialog(heading="Editar {{areaConocimientoEditar.arc_nombre}}", backdrop, id="modalEditAreaConocimiento")
+                    paper-input-decorator(label="Nombre del área del conocimiento", floatingLabel, autoValidate, error="Minimo 8 caracteres")
+                        input(type="text", ng-model="areaConocimientoEditarNombre", required, minlength="8")
+                    br
+                    paper-button(raised, ng-click="editarAreaConocimiento()") Guardar cambios
+
+
+                paper-dialog(heading="Eliminar {{areaConocimientoEliminar.arc_nombre}}", backdrop, id="modalEliminarAreaConocimiento")
+                    paper-button(raised, ng-click="eliminarAreaConocimiento()") Eliminar
+
+
+            // Aqui empiezan el apartado de configuración de grados de dificultad
+
+            div(id="gradoDificultad", class="divConfig")
+                div(class="contentConfig")
+                    core-icon-button(class="iconAdd", icon="add", title="Agregar Área del conocimiento"
+                    ng-click="abrirModalCrearGradoDeDificultad()")
+                
+                div(ng-repeat="gradoDeDificultad in gradosDeDificultad", class="contentZona")
+                    paper-button(class="buttonEditarZona", ng-click="abrirModalEditGradoDeDificultad(gradoDeDificultad.id_grado_dificultad)")
+                        core-icon(icon="create")
+                    paper-button(class="buttonEliminarZona", ng-click="abrirModalEliminarGradoDeDificultad(gradoDeDificultad.id_grado_dificultad)")
+                        core-icon(icon="delete")
+                    h3 {{gradoDeDificultad.grd_nombre}}
+
+
+                paper-dialog(heading="Crear nuevo grado de dificultad", backdrop, id="modalRegGradoDeDificultad")
+                    paper-input-decorator(label="Nombre del grado de dificultad", floatingLabel, autoValidate, error="Minimo 5 caracteres")
+                        input(type="text", ng-model="gradoDeDificultadNuevoNombre", required, minlength="5")
+                    br
+                    paper-button(raised, ng-click="crearGradoDeDificultad()") Registrar
+
+                 paper-dialog(heading="Editar {{gradoDeDificultadEditar.grd_nombre}}", backdrop, id="modalEditGradoDeDificultad")
+                    paper-input-decorator(label="Nombre del grado de dificultad", floatingLabel, autoValidate, error="Minimo 5 caracteres")
+                        input(type="text", ng-model="gradoDeDificultadEditarNombre", required, minlength="5")
+                    br
+                    paper-button(raised, ng-click="editarGradoDeDificultad()") Guardar cambios
+
+                paper-dialog(heading="Eliminar {{gradoDeDificultadEliminar.grd_nombre}}", backdrop, id="modalEliminarGradoDeDificultad")
+                    paper-button(raised, ng-click="eliminarGradoDeDificultad()") Eliminar
+
+
+            // Aqui empiezan el apartado de configuración de los tipos de pregunta
+
+            div(id="tipoPreguntas", class="divConfig")
+                div(class="contentConfig")
+                    core-icon-button(class="iconAdd", icon="add", title="Agregar tipo de pregunta"
+                    ng-click="abrirModalCrearTipoDePregunta()")
+                
+                div(ng-repeat="tipoDePregunta in tiposDePreguntas", class="contentZona")
+                    paper-button(class="buttonEditarZona", ng-click="abrirModalEditTipoDePregunta(tipoDePregunta.id_tipo_pregunta)")
+                        core-icon(icon="create")
+                    paper-button(class="buttonEliminarZona", ng-click="abrirModalEliminarTipoDePregunta(tipoDePregunta.id_tipo_pregunta)")
+                        core-icon(icon="delete")
+                    h3 {{tipoDePregunta.tip_nombre}}
+
+
+                paper-dialog(heading="Crear nuevo tipo de pregunta", backdrop, id="modalRegTipoDePregunta")
+                    paper-input-decorator(label="Nombre del tipo de pregunta", floatingLabel, autoValidate, error="Minimo 5 caracteres")
+                        input(type="text", ng-model="tipoDePreguntaNuevoNombre", required, minlength="5")
+                    br
+                    paper-button(raised, ng-click="crearTipoDePregunta()") Registrar
+
+                 paper-dialog(heading="Editar {{tipoDePreguntaEditar.tip_nombre}}", backdrop, id="modalEditTipoDePregunta")
+                    paper-input-decorator(label="Nombre del tipo de pregunta", floatingLabel, autoValidate, error="Minimo 5 caracteres")
+                        input(type="text", ng-model="tipoDePreguntaEditarNombre", required, minlength="5")
+                    br
+                    paper-button(raised, ng-click="editarTipoDePregunta()") Guardar cambios
+
+                paper-dialog(heading="Eliminar {{tipoDePreguntaEliminar.tip_nombre}}", backdrop, id="modalEliminarTipoDePregunta")
+                    paper-button(raised, ng-click="eliminarTipoDePregunta()") Eliminar
+
+
+
+        //Aquí terminan los apartados de configuración de las preguntas de los maratones
+
+    script(src="/javascripts/socket.io.js")
+    script(src="/javascripts/angular-controllers/preguntasConfigController.js")
+    script(src="/javascripts/angular-controllers/preguntasController.js")

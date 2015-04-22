@@ -1,0 +1,51 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="/bower_components/core-icons/social-icons.html">
+<link rel="import" href="/bower_components/core-icons/core-icons.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<polymer-element name="monitor-maraton" attributes="maraton">
+	<template>
+		<link rel="stylesheet" type="text/css" href="./estilo.css">
+		<core-ajax
+			auto
+			url="/queriesMaratones/getMaraton/{{maraton}}"
+			handleAs="json"
+			response="{{infoMaraton}}"
+		></core-ajax>
+		<template repeat="{{info in infoMaraton}}">
+			<div class="contentMonitor">
+				<div class="headerMonitor">
+					<div class="opciones" title="Más">
+						<core-icon icon="more-vert"></core-icon>
+					</div>
+					<img src="/images/system/maraton.png">
+					<h3>{{info.mar_nombre}}</h3>
+				</div>
+				<div class="bodyMonitor">
+					<div class="usuarios">
+						<h3>Conectados</h3>
+						<core-icon icon="social:people"></core-icon>3/10
+					</div>
+					<div class="etapa">
+						<select>
+							<option>Etapa 1</option>
+							<option>Etapa 2</option>
+							<option>Muerte subita</option>
+						</select>
+					</div>
+					<div class="activo">
+						<h3>Estado:</h3>
+						<paper-toggle-button checked></paper-toggle-button>
+					</div>
+				</div>
+			</div>
+		</template>
+	</template>
+	<script type="text/javascript">
+		Polymer("monitor-maraton", {
+			maraton : 0,
+			infoMaraton : []
+		});
+	</script>
+</polymer-element>

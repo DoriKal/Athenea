@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+	<title>Prueba monitor - maraton</title>
+	<script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
+	<script src="/javascripts/angular.min.js"></script>
+	<link rel="import" href="./monitor-maraton.html">
+</head>
+<body>
+	<div ng-controller="controller">
+		<monitor-maraton ng-repeat="maraton in maratones" maraton="{{maraton.id_maraton}}"></monitor-maraton>
+	</div>
+
+	<script src="/javascripts/socket.io.js"></script>
+	<script type="text/javascript" src="./controller.js"></script>
+</body>
+</html>

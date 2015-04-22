@@ -1,0 +1,106 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.contentMonitor{
+	width: 100%;
+	text-align: center;
+	margin-top:13px;
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media (min-width:768px){
+	.contentMonitor{
+		width:45%;
+	}
+}
+@media (min-width:992px){
+	.contentMonitor{
+		width:30%;
+	}
+}
+@media (min-width:1200px){
+	.contentMonitor{
+		width:30%;
+	}
+}
+
+.headerMonitor{
+	padding: 15px;
+	background-color: #023859;
+	color: #fff;
+	text-shadow:1px 1px 7px rgba(0, 0, 0, .5);
+	font-size: 20px;
+	font-family: Arial;
+	position: relative;
+	border-radius: 5px 5px 0px 0px;
+}
+
+.headerMonitor .opciones{
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin: 5px 5px 0px 0px;
+	padding: 5px 5px 5px 5px;
+	background-color: transparent;
+	border: 0;
+	color: #fff;
+	border-radius: 3px;
+	transition: .3s;
+    -webkit-transition: .3s;
+    -moz-transition-duration: .3s;
+}
+.headerMonitor .opciones:hover{
+	box-shadow: 0px 0px 7px 0px rgba(0, 0, 0, .7);
+	cursor: pointer;
+}
+.headerMonitor .opciones:active{
+	box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, .7) inset;
+	cursor: pointer;
+}
+
+.bodyMonitor{
+	height: 80px;
+	border-radius: 0px 0px 5px 5px;
+	box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, .7) inset;
+	overflow: hidden;
+	display: table;
+	width: 100%;
+}
+.bodyMonitor>*{
+	display: table-cell;
+}
+
+.bodyMonitor>.activo{
+	background-color: #023859;
+	width: 20%;
+	box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, .6);
+	text-shadow:1px 1px 7px rgba(0, 0, 0, .5);
+}
+.activo h3{
+	padding: 7px;
+	color: #fff;
+}
+
+.bodyMonitor .usuarios{
+	width: 20%;
+}
+
+.bodyMonitor>.etapa{
+	width: 25%;
+	position: relative;
+}
+
+.etapa>select{
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	font-size: 20px;
+	border: none;
+	background-color: transparent;
+}
+

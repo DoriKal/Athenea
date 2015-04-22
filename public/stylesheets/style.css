@@ -1,0 +1,156 @@
+body{
+}
+
+body {
+  //padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.contentZona{
+	display: inline-block;
+	margin: 10px;
+	text-align: center;
+	position: relative;
+	border-radius: 0px 0px 5px 5px;
+	box-shadow: 1px 1px 6px rgba(0, 0, 0, .3);
+	transition: .5s;
+	-webkit-transition: .5s;
+	-moz-transition: .5s;
+}
+.contentZona:hover>.buttonEditarZona,
+.contentZona:hover>.buttonEliminarZona{
+	display: block;
+}
+.buttonEliminarZona{
+	display: none;
+	background-color: #d23f31;
+	color:#fff;
+	position: absolute;
+	z-index: 3;
+	right: -5px;
+}
+.buttonEditarZona{
+	display: none;
+	background-color: #5677fc;
+	color:#fff;
+	position: absolute;
+	left: -5px;
+	top: 0px;
+	z-index: 3;
+}
+.contentZona{
+	width:45%;
+}
+@media (min-width:768px){
+	.contentZona{
+		width:30%;
+	}
+}
+@media (min-width:992px){
+	.contentZona{
+		width:30%;
+	}
+}
+@media (min-width:1200px){
+	.contentZona{
+		width:30%;
+	}
+}
+
+
+
+
+::shadow core-toolbar{
+	background-color: #023559;
+	text-shadow:1px 1px 7px rgba(0, 0, 0, .7);
+}
+
+
+
+
+::shadow select{
+	background-color: #fff;
+	border-radius: 3px;
+	height: 32px;
+	font-size: 20px;
+	width: 100%;
+	padding: 5px;
+	border: none;
+	box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, .3),
+	0px 0px 7px 1px rgba(0, 0, 0, .1) inset;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+.contentConfig{
+	position: absolute;
+	right:0;
+	top: 0px;
+}
+
+.contentOpciones{
+	position: absolute;
+	right:40px;
+	top: 0px;
+}
+
+#modalConfig{
+	background-color: #fff;
+	position: absolute;
+	height: 600px;
+	width: 100%;
+	margin: 0;
+	top: 0px;
+}
+
+.divConfig {
+	display: none;
+	padding: 5px 30px 30px 30px;
+	position: relative;
+}
+
+.tabs-config{
+	margin-top: 40px;
+}
+
+paper-tabs.tabs-config {
+    background-color: transparent;
+  	color: #023559;
+    box-shadow: none;
+}
+    
+paper-tabs.tabs-config::shadow #selectionBar {
+    background-color: #023559;
+}
+    
+paper-tabs.tabs-config paper-tab::shadow #ink {
+    color: #023559;
+}
+
+core-icon-button .iconAdd,
+::shadow core-icon-button .iconAdd,
+.iconAdd{
+	background-color: green;
+	color: #fff;
+}
+
+core-icon-button .iconAdd:active,
+::shadow core-icon-button .iconAdd:active,
+.iconAdd:active{
+	background-color: green;
+	color: #fff;
+	box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, .6) inset;
+}
+
+.menu{
+	position: absolute !important;
+	right: 0 !important;
+}
+
+.invisible, #contentContrasCompetidorAgregar{
+	display: none !important;
+}

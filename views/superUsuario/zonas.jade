@@ -1,0 +1,36 @@
+extends layout
+
+block content
+    div(ng-controller="zonaController")
+        paper-fab(icon="add", title="Nueva zona", style="background-color:#259b24",
+        ng-click="abrirModalRegZona()")
+        div
+            div(ng-repeat="zona in zonas" class="contentZona")
+                paper-button(class="buttonEditarZona", ng-click="abrirModalEditZona(zona.id_zona)")
+                    core-icon(icon="create")
+                paper-button(class="buttonEliminarZona", ng-click="abrirModalEliminarZona(zona.id_zona)")
+                    core-icon(icon="delete")
+                h3 {{zona.zon_nombre}}
+
+
+        paper-dialog(heading="Crear nueva zona", backdrop, id="modalRegZona",
+            transition="core-transition-center")
+            paper-input-decorator(label="Nombre de la nueva zona", floatingLabel, autoValidate, error="Minimo 8 caracteres")
+                input(type="text", ng-model="zonNuevoNombre", required, minlength="8")
+            br
+            paper-button(raised, ng-click="crearZona()") Registrar
+
+
+        paper-dialog(heading='Editar "{{zonaEditar.zon_nombre}}"', backdrop, id="modalEditZona", transition="core-transition-center")
+            div
+                paper-input-decorator(label="Nombre de la zona", floatingLabel, autoValidate, error="Minimo 8 caracteres")
+                    input(type="text", ng-model="nombreZonaEditar", required, minlength="8", id="x")
+            br
+            paper-button(raised, ng-click="editarZona()") Guardar cambios
+        paper-dialog(heading='Eliminar "{{zonaEliminar.zon_nombre}}"', backdrop, id="modalEliminarZona", transition="core-transition-center")
+            paper-button(raised, ng-click="eliminarZona()") eliminar
+
+
+
+    script(src="/javascripts/socket.io.js")
+    script(src="/javascripts/angular-controllers/zonaController.js")
