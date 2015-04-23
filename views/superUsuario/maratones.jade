@@ -101,16 +101,22 @@ block content
                 div(id="contentOrderPreguntas")
                     div(class="listaOrderPreguntas")
                         h3 Todas las preguntas
-                        paper-checkbox(id="checkBoxChecarTodo")
-                        div(id="contentItemsListPregunta")
+                        button(id="btnAgregarPreguntas", disabled, ng-click="registrarPreguntasEnMaraton()") agregar las preguntas
+                        //paper-checkbox(id="checkBoxChecarTodo")
+                        div(class="contentItemsListPregunta")
                         div(class="itemListaOrderPregunta", ng-repeat="pregunta in preguntasNoAsignadasAMaraton") {{pregunta.pre_pregunta}}
-                            paper-checkbox(class="checkPregunta", draggable="true", id="checkP{{pregunta.id_pregunta}}")
+                            paper-checkbox(class="checkPregunta", ng-click="checkPreguntaSeleccion(pregunta.id_pregunta)")
                     div(class="listaOrderPreguntas")
                         h3 
-                            select
+                            select(id="selectEtapaAsignarAMaraton", ng-model="etapaSeleccionadaPregunta", ng-change="cambiar()")
                                 option Seleccione la
-                                option(ng-repeat="etapa in etapas") {{etapa.eta_nombre}}
+                                option(ng-repeat="etapa in etapas", idEtapa="{{etapa.id_etapa}}") {{etapa.eta_nombre}}
                             label  Etapa
+                        br
+                        br
+                        br
+                        br
+                        div(class="itemListaOrderPregunta", ng-repeat="pregunta in preguntasAsignadasAMaratonYEtapa") {{pregunta.pre_pregunta}}
 
             div(id="competencia", class="divConfig")
                 h3 competencia

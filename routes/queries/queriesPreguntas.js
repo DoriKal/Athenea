@@ -55,6 +55,31 @@ router.get("/getPreguntasNoAsignadasAMaraton", function (req, res){
 		});
 });
 
+router.get("/getPreguntasAsignadasAMaratonYEtapa/:id_maraton/:id_etapa", function (req, res){
+	connection.query("SELECT "+
+			/*	Datos pregunta	*/
+			"id_pregunta,pre_pregunta,pre_opcionA,pre_opcionB,pre_opcionC,"+
+			"pre_opcionC,pre_respuesta_correcta,pre_justificación,id_area_conocimiento,"+
+			"arc_nombre,id_grado_dificultad, grd_nombre,id_tipo_pregunta,"+
+			"tip_nombre,id_usuario,usu_nombre "+
+			"FROM((((pregunta "+
+			"LEFT JOIN tipo_pregunta ON pre_id_tipo_pregunta = id_tipo_pregunta)"+
+			"LEFT JOIN area_conocimiento ON pre_id_area_conocimiento = id_area_conocimiento)"+
+			"LEFT JOIN grado_dificultad  ON  pre_id_grado_dificultad = id_grado_dificultad)"+
+			"LEFT JOIN usuario ON pre_id_autor_reactivo = id_usuario)"+
+			"LEFT JOIN pregunta_en_maraton on id_pregunta=pnm_id_pregunta WHERE "+
+			"pnm_id_maraton=? AND pnm_id_etapa=?", [
+				req.params.id_maraton,
+				req.params.id_etapa
+			], function (err, results){
+			if (err){
+				console.log("ERROR: " + err);
+			}
+			res.send(getJsonDecifrado(results));
+			console.log("Get preguntas no asignadas a un maraton");
+		});
+});
+
 router.post("/createPregunta/:jsonPregunta", function (req, res){
 	try{
 		var jsonPregunta = getJsonCifrado(JSON.parse(req.params.jsonPregunta));
@@ -85,6 +110,23 @@ router.post("/createPregunta/:jsonPregunta", function (req, res){
 	}catch(e){
 		console.log("ERROR: " + e.message);
 	}
+});
+
+router.post("/registrarPreguntasEnMaraton/:jsonDatosPreguntas/:id_etapa/:id_maraton",
+	function (req, res){
+	jsonDatosPreguntas = JSON.parse(req.params.jsonDatosPreguntas);
+	for (var i = 0; i < jsonDatosPreguntas.length; i++){
+		connection.query("INSERT INTO pregunta_en_maraton(pnm_id_pregunta,"+
+			"pnm_id_maraton, pnm_id_etapa) VALUES(?,?,?)",
+		[jsonDatosPreguntas[i].id_pregunta, req.params.id_maraton, req.params.id_etapa],
+		function(err, results){
+			if (err){
+				console.log("ERROR: " + err.message);
+			}
+		});
+	}
+	res.send("Exito al registrar");
+	console.log("Exito al registrar preguntas en un maratón");
 });
 
 router.put("/updatePregunta/:jsonDatos", function(req, res){

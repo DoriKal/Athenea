@@ -215,7 +215,7 @@ core-icon-button .iconAdd:active,
 	padding-bottom: 15px;
 }
 
-#contentItemsListPregunta{
+.contentItemsListPregunta{
 	-moz-box-flex: 1;
 	-webkit-box-flex: 1;
 	-ms-flex: 1 1 auto;
