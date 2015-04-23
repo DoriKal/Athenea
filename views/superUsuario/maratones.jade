@@ -43,15 +43,17 @@ block content
             div(class="contentConfig")
                 core-icon-button(icon="close", ng-controller="maratonesController", ng-click="cerrarConfiguracionMaraton()", title="Cerrar")
             paper-tabs(selected="0", class="tabs-config")
-                paper-tab(class="tabConfigMaratones", config="competidores", tabSelectedConf) Competidores
+                paper-tab(class="tabConfigMaratones", config="presentacion", tabSelectedConf) pregunta
+                paper-tab(class="tabConfigMaratones", config="competidores", ng-click="getCompetidores()") Competidores
                 paper-tab(class="tabConfigMaratones", config="preguntas") Preguntas
                 paper-tab(class="tabConfigMaratones", config="competencia") Competencia
             
 
+            div(id="presentacion", class="divConfig")
+                h3 Bienvenido a la consola de administración del maratón
             div(id="competidores", class="divConfig")
                 div(class="contentConfig")
                     core-icon-button(icon="add", ng-click="abrirModalAgregarUsuarioMaraton()", title="Agregar un competidor", class="iconAdd")
-                button(id="btnInitConfigMaratones", ng-click="getI()")
                 h3(ng-repeat="competidor in competidores", class="contentZona") {{competidor.usu_nombre}}
 
 

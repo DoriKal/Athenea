@@ -99,6 +99,11 @@ io.sockets.on("connection", function(socket){
     io.emit(mensaje);
   });
 
+  socket.on("nuevoCompetidorEnMaraton", function(mensaje){
+    console.log("Nuevo competidor de un maraton: "+mensaje);
+    io.emit(mensaje);
+  });
+
 });
 
 
