@@ -84,6 +84,36 @@ io.sockets.on("connection", function(socket){
     socket.emit(mensaje);
   });
 
+  socket.on("crearGradoDeDificultad", function(mensaje){
+    console.log("Alguien registro un grado de dificultad");
+    socket.emit(mensaje);
+  });
+
+  socket.on("editarGradoDeDificultad", function(mensaje){
+    console.log("Alguien editó un grado de dificultad");
+    socket.emit(mensaje);
+  });
+
+  socket.on("deleteGradoDeDificultad", function(mensaje){
+    console.log("Alguien eliminó un grado de dificultad");
+    socket.emit(mensaje);
+  });
+
+  socket.on("crearTipoDePregunta", function(mensaje){
+    console.log("Alguien registro un tipo de pregunta");
+    socket.emit(mensaje);
+  });
+
+  socket.on("editarTipoDePregunta", function(mensaje){
+    console.log("Alguien editó un tipo de pregunta");
+    socket.emit(mensaje);
+  });
+
+  socket.on("deleteTipoDePregunta", function(mensaje){
+    console.log("Alguien eliminó un tipo de pregunta");
+    socket.emit(mensaje);
+  });
+
   socket.on("nuevaPregunta", function(mensaje){
     console.log("Ya se registro una pregunta: "+mensaje);
     io.emit(mensaje);

@@ -159,6 +159,8 @@ function preguntasConfigController($scope, $http) {
             $http.post("/queriesGradosDeDificultad/createGradoDeDificultad/"+json)
             .success(function(datos){
                 console.log(datos);
+                $scope.socket.emit("crearGradoDeDificultad", "crearGradoDeDificultad");
+
             });
         }
     };
@@ -187,6 +189,8 @@ function preguntasConfigController($scope, $http) {
             $http.put("/queriesGradosDeDificultad/updateGradoDeDificultad/"+json)
             .success(function (datos) {
                 console.log(datos);
+                $scope.socket.emit("editarGradoDeDificultad", "editarGradoDeDificultad");
+
             });
         }
     };
@@ -203,6 +207,7 @@ function preguntasConfigController($scope, $http) {
         $http.delete("/queriesGradosDeDificultad/deleteGradoDeDificultad/"+json)
             .success(function (datos) {
                 console.log(datos);
+                $scope.socket.emit("eliminarGradoDeDificultad", "eliminarGradoDeDificultad");
         });
     };
 
@@ -233,6 +238,7 @@ function preguntasConfigController($scope, $http) {
             $http.post("/queriesTiposDePreguntas/createTipoDePregunta/" + json)
             .success(function (datos){
                 console.log(datos);
+                $scope.socket.emit("crearTipoDePregunta", "crearTipoDePregunta");
             });
         }
     }
@@ -252,6 +258,7 @@ function preguntasConfigController($scope, $http) {
             $http.put("/queriesTiposDePreguntas/updateTipoDePregunta/"+json)
             .success(function(datos){
                 console.log(datos);
+                $scope.socket.emit("editarTipoDePregunta", "editarTipoDePregunta");
             });
         }
     };
@@ -269,6 +276,7 @@ function preguntasConfigController($scope, $http) {
         $http.delete("/queriesTiposDePreguntas/deleteTipoDePregunta/"+json)
         .success(function(datos){
             console.log(datos);
+            $scope.socket.emit("eliminarTipoDePregunta", "eliminarTipoDePregunta");
         });
     };
 
@@ -302,6 +310,32 @@ function preguntasConfigController($scope, $http) {
     
     $scope.socket.on("areaDelConocimientoEliminada", function(datos) {
         $scope.getAreasDelConocimiento();
+    });
+
+    // Grado de Dificultad
+    $scope.socket.on("crearGradoDeDificultad", function(datos) {
+        $scope.getGradosDeDificultad();
+    });
+    
+    $scope.socket.on("editarGradoDeDificultad", function(datos) {
+        $scope.getGradosDeDificultad();
+    });
+    
+    $scope.socket.on("deleteGradoDeDificultad", function(datos) {
+        $scope.getGradosDeDificultad();
+    });
+
+    // Tipo de pregunta
+    $scope.socket.on("crearTipoDePregunta", function(datos) {
+        $scope.getTiposDePreguntas();
+    });
+    
+    $scope.socket.on("editarTipoDePregunta", function(datos) {
+        $scope.getTiposDePreguntas();
+    });
+    
+    $scope.socket.on("deleteTipoDePregunta", function(datos) {
+        $scope.getTiposDePreguntas();
     });
     
     $scope.getGradosDeDificultad();

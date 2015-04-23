@@ -173,28 +173,12 @@ FOREIGN KEY(rem_id_pregunta) REFERENCES pregunta(id_pregunta)
 
 /* 	Para obtener una pregunta con sus respectiva información necesitamos la siguiente consulta	*/
 SELECT 
-/*	Datos pregunta	*/
-id_pregunta, pre_pregunta, pre_opcionA,
-pre_opcionB, pre_opcionC, pre_opcionC, pre_respuesta_correcta,
-pre_justificación,
-/* 	Datos area del conocimiento	 */
-id_area_conocimiento, arc_nombre,
-/*	Datos grado de dificultad	 */
-id_grado_dificultad, grd_nombre,
-/*	Datos del tipo de pregunta	 */
-id_tipo_pregunta, tip_nombre,
-/*	Datos del autor del reactivo */
-id_usuario, usu_nombre
-FROM
-(/*join usu*/(/*join tip*/(/*join grd*/(/*join arc*/
-pregunta
-LEFT JOIN area_conocimiento ON
-pre_id_area_conocimiento = id_area_conocimiento)
-LEFT JOIN grado_dificultad ON 
-pre_id_grado_dificultad = id_grado_dificultad)
-LEFT JOIN tipo_pregunta ON
-id_tipo_pregunta = id_tipo_pregunta)
-LEFT JOIN usuario ON
-pre_id_autor_reactivo = id_usuario)
-;
+p.id_pregunta,p.pre_pregunta,p.pre_opcionA,p.pre_opcionB,p.pre_opcionC,p.pre_opcionC,p.pre_respuesta_correcta,
+p.pre_justificación,ac.id_area_conocimiento,ac.arc_nombre,gd.id_grado_dificultad, gd.grd_nombre,tp.id_tipo_pregunta,
+tp.tip_nombre,u.id_usuario,u.usu_nombre
+FROM((((pregunta p
+LEFT JOIN tipo_pregunta tp ON p.pre_id_tipo_pregunta = tp.id_tipo_pregunta)
+LEFT JOIN area_conocimiento ac ON p.pre_id_area_conocimiento = ac.id_area_conocimiento)
+LEFT JOIN grado_dificultad  gd ON  p.pre_id_grado_dificultad = gd.id_grado_dificultad)
+LEFT JOIN usuario u ON p.pre_id_autor_reactivo = u.id_usuario);
 

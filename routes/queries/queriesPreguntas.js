@@ -14,36 +14,22 @@ router.get("/:limitInicio/:limitFin/", function(req, res){
 router.get("/", function(req, res){
 	connection.query("SELECT "+
 			/*	Datos pregunta	*/
-			"id_pregunta, pre_pregunta, pre_opcionA,"+
-			"pre_opcionB, pre_opcionC, pre_opcionC,pre_opcionD,"+
-			"pre_respuesta_correcta,pre_justificación,"+
-			/* 	Datos area del conocimiento	 */
-			"id_area_conocimiento, arc_nombre,"+
-			/*	Datos grado de dificultad	 */
-			"id_grado_dificultad, grd_nombre,"+
-			/*	Datos del tipo de pregunta	 */
-			"id_tipo_pregunta, tip_nombre,"+
-			/*	Datos del autor del reactivo */
-			"id_usuario, usu_nombre "+
-			"FROM "+
-			"(/*join usu*/(/*join tip*/(/*join grd*/(/*join arc*/"+
-			"pregunta "+
-			"LEFT JOIN area_conocimiento ON "+
-			"pre_id_area_conocimiento = id_area_conocimiento)"+
-			"LEFT JOIN grado_dificultad ON "+
-			"pre_id_grado_dificultad = id_grado_dificultad)"+
-			"LEFT JOIN tipo_pregunta ON "+
-			"id_tipo_pregunta = id_tipo_pregunta)"+
-			"LEFT JOIN usuario ON "+
-			"pre_id_autor_reactivo = id_usuario)"+
-			";", function(err, results, fields){
+			"id_pregunta,pre_pregunta,pre_opcionA,pre_opcionB,pre_opcionC,"+
+			"pre_opcionC,pre_respuesta_correcta,pre_justificación,id_area_conocimiento,"+
+			"arc_nombre,id_grado_dificultad, grd_nombre,id_tipo_pregunta,"+
+			"tip_nombre,id_usuario,usu_nombre "+
+			"FROM((((pregunta "+
+			"LEFT JOIN tipo_pregunta ON pre_id_tipo_pregunta = id_tipo_pregunta)"+
+			"LEFT JOIN area_conocimiento ON pre_id_area_conocimiento = id_area_conocimiento)"+
+			"LEFT JOIN grado_dificultad  ON  pre_id_grado_dificultad = id_grado_dificultad)"+
+			"LEFT JOIN usuario ON pre_id_autor_reactivo = id_usuario);",
+				function(err, results, fields){
 				if (err) {
 					console.log(err.message);
 					throw err;
 				}
 				res.send(getJsonDecifrado(results));
 				console.log("Pregunta: " + JSON.stringify(getJsonDecifrado(results)));
-				console.log("hdcyj xXDFEDF " + JSON.stringify(results));
 			});
 });
 
@@ -101,11 +87,11 @@ router.put("/updatePregunta/:jsonDatos", function(req, res){
 	res.send("true");
 });
 
-router.delete("/deleteZona/:jsonDatos", function(req, res){
+router.delete("/deletePregunta/:jsonDatos", function(req, res){
 	var jsonDatos = JSON.parse(req.params.jsonDatos);
-	connection.query("DELETE FROM zona WHERE id_zona=?",
+	connection.query("DELETE FROM pregunta WHERE id_pregunta=?",
 		[jsonDatos.id_zona], function(){
-			res.send("Zona eliminada correctamente!");
+			res.send("Pregunta eliminada correctamente!");
 		});
 });
 

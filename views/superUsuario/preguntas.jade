@@ -62,11 +62,17 @@ block content
             paper-button(raised, ng-click="crearPregunta()") Registrar
             label(id="mostrarErrorPregunta")
     div(ng-controller="preguntasController")
-        div(ng-repeat="pregunta in preguntas") {{pregunta.pre_pregunta}}
-
-
-
-
+        table 
+            th Pregunta
+            tr(ng-repeat="pregunta in preguntas")
+                td {{pregunta.pre_pregunta}}
+                td {{pregunta.pre_opcionA}}
+                td {{pregunta.pre_opcionB}} 
+                td {{pregunta.pre_opcionC}} 
+                td {{pregunta.pre_opcionC}}
+                td {{pregunta.pre_opcionD}}
+                td {{pregunta.pre_respuesta_correcta}}
+                td {{pregunta.pre_justificacion}}
 
     // Configuraciones de las preguntas
 
