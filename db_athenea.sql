@@ -148,15 +148,22 @@ FOREIGN KEY(pre_id_tipo_pregunta) REFERENCES tipo_pregunta(id_tipo_pregunta),
 FOREIGN KEY(pre_id_autor_reactivo) REFERENCES usuario(id_usuario)
 );
 
+CREATE TABLE etapa(
+id_etapa INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+eta_nombre VARCHAR(30)
+);
+
 /**
 *	Asi sabremos que pregunta está en que maratón
 */
 CREATE TABLE pregunta_en_maraton(
 pnm_id_pregunta INT NOT NULL,
 pnm_id_maraton INT NOT NULL,
+pnm_id_etapa INT NOT NULL,
 PRIMARY KEY(pnm_id_pregunta, pnm_id_maraton),
 FOREIGN KEY(pnm_id_pregunta) REFERENCES pregunta(id_pregunta),
-FOREIGN KEY(pnm_id_maraton) REFERENCES maraton(id_maraton)
+FOREIGN KEY(pnm_id_maraton) REFERENCES maraton(id_maraton),
+FOREIGN KEY(pnm_id_etapa) REFERENCES etapa(id_etapa)
 );
 
 /**
@@ -171,7 +178,16 @@ FOREIGN KEY(rem_id_pregunta) REFERENCES pregunta(id_pregunta)
 );
 
 
+
+/*	INSERTS REQUERIDOS	*/
+INSERT INTO etapa(eta_nombre) VALUES("Primera"), ("Segunda"), ("Tercera");
+
+
+
+
 /* 	Para obtener una pregunta con sus respectiva información necesitamos la siguiente consulta	*/
+
+
 SELECT 
 p.id_pregunta,p.pre_pregunta,p.pre_opcionA,p.pre_opcionB,p.pre_opcionC,p.pre_opcionC,p.pre_respuesta_correcta,
 p.pre_justificación,ac.id_area_conocimiento,ac.arc_nombre,gd.id_grado_dificultad, gd.grd_nombre,tp.id_tipo_pregunta,

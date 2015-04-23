@@ -14,6 +14,7 @@ var queriesAreasConocimiento = require("./routes/queries/queriesAreasConocimient
 var queriesGradosDeDificultad = require("./routes/queries/queriesGradosDeDificultad");
 var queriesTiposDePreguntas = require("./routes/queries/queriesTiposDePreguntas");
 var queriesPreguntas = require("./routes/queries/queriesPreguntas");
+var queriesEtapas = require("./routes/queries/queriesEtapas");
 
 var test = require("./routes/test/test");
 
@@ -41,6 +42,7 @@ app.use('/queriesAreasConocimiento', queriesAreasConocimiento);
 app.use('/queriesGradosDeDificultad', queriesGradosDeDificultad);
 app.use('/queriesTiposDePreguntas', queriesTiposDePreguntas);
 app.use('/queriesPreguntas', queriesPreguntas);
+app.use('/queriesEtapas', queriesEtapas);
 
 app.use('/test', test);
 

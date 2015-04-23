@@ -33,6 +33,28 @@ router.get("/", function(req, res){
 			});
 });
 
+router.get("/getPreguntasNoAsignadasAMaraton", function (req, res){
+	connection.query("SELECT "+
+			/*	Datos pregunta	*/
+			"id_pregunta,pre_pregunta,pre_opcionA,pre_opcionB,pre_opcionC,"+
+			"pre_opcionC,pre_respuesta_correcta,pre_justificación,id_area_conocimiento,"+
+			"arc_nombre,id_grado_dificultad, grd_nombre,id_tipo_pregunta,"+
+			"tip_nombre,id_usuario,usu_nombre "+
+			"FROM((((pregunta "+
+			"LEFT JOIN tipo_pregunta ON pre_id_tipo_pregunta = id_tipo_pregunta)"+
+			"LEFT JOIN area_conocimiento ON pre_id_area_conocimiento = id_area_conocimiento)"+
+			"LEFT JOIN grado_dificultad  ON  pre_id_grado_dificultad = id_grado_dificultad)"+
+			"LEFT JOIN usuario ON pre_id_autor_reactivo = id_usuario)"+
+			"LEFT JOIN pregunta_en_maraton on id_pregunta=pnm_id_pregunta WHERE "+
+			"pnm_id_pregunta is null", function (err, results){
+			if (err){
+				console.log("ERROR: " + err);
+			}
+			res.send(getJsonDecifrado(results));
+			console.log("Get preguntas no asignadas a un maraton");
+		});
+});
+
 router.post("/createPregunta/:jsonPregunta", function (req, res){
 	try{
 		var jsonPregunta = getJsonCifrado(JSON.parse(req.params.jsonPregunta));
@@ -68,16 +90,24 @@ router.post("/createPregunta/:jsonPregunta", function (req, res){
 router.put("/updatePregunta/:jsonDatos", function(req, res){
 	var jsonDatos = JSON.parse(req.params.jsonDatos);
 	connection.query("UPDATE pregunta SET "+
-	"pre_id_area_conocimiento=?, pre_id_grado_dificultad=?, pre_id_tipo_pregunta=?, "+
-	"pre_id_autor_reactivo=?, pre_pregunta=?, pre_opcionA=?, pre_opcionB=?, "+
-	"pre_opcionC=?, pre_opcionD=?, pre_respuesta_correcta=?, pre_justificación "+
-	"WHERE id_pregunta=?",
-		[jsonDatos.pre_id_area_conocimiento, jsonDatos.pre_id_grado_dificultad, 
-		jsonDatos.pre_id_tipo_jsonDatos.pregunta,jsonDatos.pre_id_autor_reactivo, 
-		jsonDatos.pre_jsonDatos.pregunta , jsonDatos.pre_opcionA, jsonDatos.pre_opcionB, 
-		jsonDatos.pre_opcionC, jsonDatos.pre_opcionD, jsonDatos.pre_respuesta_correcta,
-		jsonDatos.pre_justificación,jsonDatos.id_pregunta],
-		function(err, results, fiels){
+		"pre_id_area_conocimiento=?, pre_id_grado_dificultad=?,"+
+		"pre_id_tipo_pregunta=?, pre_id_autor_reactivo=?, pre_pregunta=?,"+
+		"pre_opcionA=?, pre_opcionB=?, pre_opcionC=?, pre_opcionD=?,"+
+		"pre_respuesta_correcta=?, pre_justificación "+
+		"WHERE id_pregunta=?",[
+			jsonDatos.pre_id_area_conocimiento,
+			jsonDatos.pre_id_grado_dificultad, 
+			jsonDatos.pre_id_tipo_jsonDatos.pregunta,
+			jsonDatos.pre_id_autor_reactivo, 
+			jsonDatos.pre_jsonDatos.pregunta,
+			jsonDatos.pre_opcionA,
+			jsonDatos.pre_opcionB, 
+			jsonDatos.pre_opcionC,
+			jsonDatos.pre_opcionD,
+			jsonDatos.pre_respuesta_correcta,
+			jsonDatos.pre_justificación,
+			jsonDatos.id_pregunta
+		],function(err, results, fiels){
 			if(err){
 				console.log("ERROR: "+err.message);
 				throw err;

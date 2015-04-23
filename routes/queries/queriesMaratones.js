@@ -30,10 +30,19 @@ router.get("/getCompetidoresEnMaraton/:id_maraton", function (req, res){
 				console.log("ERROR: " + err.message);
 			}
 			// Aquí se mandan los competidores de un maraton especifico
-			res.send(results);
+			res.send(getCompetidoresDecodificados(results));
 			console.log("Se enviaron los competidores de un maraton...");
 		});
 });
+
+function getCompetidoresDecodificados(jsonCompetidores){
+	for (var i = 0; i < jsonCompetidores.length; i++){
+		jsonCompetidores[i].usu_contra = encriptacion_athenea.decifrar(
+			jsonCompetidores[i].usu_contra
+			);
+	}
+	return jsonCompetidores;
+}
 
 router.post("/createMaraton/:jsonMaraton", function(req, res){
 	var jsonMaraton = JSON.parse(req.params.jsonMaraton);
@@ -89,6 +98,35 @@ router.put("/updateMaraton/:jsonMaraton", function(req, res){
 		});
 });
 
+router.put("/updateCompetidorMaraton/:jsonCompetidor", function (req, res){
+	jsonCompetidor = JSON.parse(req.params.jsonCompetidor);
+	jsonCompetidor.usu_contra = encriptacion_athenea.cifrar(
+		jsonCompetidor.usu_contra
+		);
+	connection.query("SELECT id_usuario FROM usuario WHERE usu_usuario=? AND "+
+		"id_usuario!=?", [jsonCompetidor.usu_usuario, jsonCompetidor.id_usuario],
+		function(err, results){
+			if (err){
+				console.log("ERROR: " + err.message);
+			}
+
+			console.log(results);
+			if(!(results.length > 0)){
+				connection.query("UPDATE usuario SET usu_nombre=?,usu_usuario=?,usu_contra=? "+
+					"WHERE id_usuario=?",
+					[jsonCompetidor.usu_nombre, jsonCompetidor.usu_usuario,
+					jsonCompetidor.usu_contra, jsonCompetidor.id_usuario], function(err, results){
+						if (err){
+							console.log("ERROR: " + err.message);
+						}
+						console.log("competidor editado");
+					});
+			}else{
+				res.send("¡El nombre de usuario ya existe!");
+			}
+		});
+});
+
 router.delete("/deleteMaraton/:jsonMaraton", function(req, res){
 	var jsonMaraton = JSON.parse(req.params.jsonMaraton);
 	connection.query("DELETE FROM maraton WHERE id_maraton=?", [jsonMaraton.id_maraton],
@@ -101,5 +139,29 @@ router.delete("/deleteMaraton/:jsonMaraton", function(req, res){
 			console.log("Ya elimine un maraton!");
 		});
 });
+
+router.delete("/deleteCompetidorMaraton/:jsonCompetidor", function(req, res){
+	var jsonCompetidor = JSON.parse(req.params.jsonCompetidor);
+	connection.query("DELETE FROM usuario_maraton WHERE uma_id_usuario=? AND "+
+		"uma_id_maraton=?", [jsonCompetidor.id_usuario, jsonCompetidor.uma_id_maraton],
+		function(err, results, fields){
+			if(err){
+				console.log("ERROR: "+err.message);
+				throw err;
+			}
+			connection.query("DELETE FROM usuario WHERE id_usuario=?",
+				[jsonCompetidor.id_usuario],
+				function(err, results, fields){
+					if(err){
+						console.log("ERROR: "+err.message);
+						throw err;
+					}
+					res.send("Ya elimine un maraton!");
+					console.log("Ya elimine un maraton!");
+				});
+		});
+});
+
+
 
 module.exports = router;

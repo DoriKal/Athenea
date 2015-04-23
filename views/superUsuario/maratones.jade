@@ -3,6 +3,7 @@ extends layout
 block content
     link(rel="import", href="/elements/x-trigger/x-trigger.html")
     link(rel="import", href="/bower_components/paper-toggle-button/paper-toggle-button.html")
+    link(rel="import", href="/bower_components/paper-checkbox/paper-checkbox.html")
     div(ng-controller="maratonesController")
         div(class="contentConfig")
             core-icon-button(icon="add", class="iconAdd", ng-click="abrirModalRegMaraton()", title="Agregar pregunta")
@@ -54,7 +55,12 @@ block content
             div(id="competidores", class="divConfig")
                 div(class="contentConfig")
                     core-icon-button(icon="add", ng-click="abrirModalAgregarUsuarioMaraton()", title="Agregar un competidor", class="iconAdd")
-                h3(ng-repeat="competidor in competidores", class="contentZona") {{competidor.usu_nombre}}
+                div(ng-repeat="competidor in competidores", class="contentZona")
+                    paper-button(class="buttonEditarZona", ng-click="abrirModalEditCompetidores(competidor.id_usuario)")
+                        core-icon(icon="create")
+                    paper-button(class="buttonEliminarZona", ng-click="abrirModalEliminarCompetidores(competidor.id_usuario)")
+                        core-icon(icon="delete")
+                    h3 {{competidor.usu_nombre}}
 
 
                 paper-dialog(heading="Crear un competidor para este maraton", backdrop, id="modalRegCompetidorMaraton")
@@ -70,17 +76,41 @@ block content
                     br
                     paper-button(raised, ng-click="crearCompetidor()") Registrar
 
+                paper-dialog(heading="Editar {{competidorEditar.usu_nombre}}", backdrop, id="modalEditCompetidorMaraton")
+                    input(id="textoCompetidorIdMaraton", hidden)
+                    paper-input-decorator(label="Nombre del competidor", floatingLabel, autoValidate, error="Minimo 5 caracteres")
+                        input(type="text", ng-model="competidorNombreEditar", required, minlength="5")
+                    paper-input-decorator(label="Usuario del competidor", floatingLabel, autoValidate, error="Minimo 5 caracteres")
+                        input(type="text", ng-model="competidorNombreUsuarioEditar", required, minlength="5")
+                    paper-input-decorator(label="Contraseña del competidor", floatingLabel, autoValidate, error="Minimo 5 caracteres")
+                        input(type="text", ng-model="competidorContraseniaEditar", required, minlength="5")
+                    
+                    //label Definir contraseña 
+                    //paper-toggle-button(id="toggleContraseñaCompetidor")
+                    //label  (Sino se define se tomará el usuario como contraseña)
+                    br
+                    paper-button(raised, ng-click="editarCompetidor()") Guardar cambios
 
+                paper-dialog(heading="Eliminar {{competidorEliminar.usu_nombre}}", backdrop, id="modalEliminarCompetidorMaraton")
+                    paper-button(raised, ng-click="eliminarCompetidor()") Eliminar
 
-
-
-
-
-
-            div(id="preguntas", class="divConfig")
+            // Aqui empieza el apartado de preguntas
+            div(id="preguntas", class="divConfig", style="postion:relative")
                 div(class="contentConfig")
                     core-icon-button(icon="add", ng-click="abrirModalAgregarUsuarioMaraton()", title="Agregar un competidor", class="iconAdd")
-                h3 preguntas
+                div(id="contentOrderPreguntas")
+                    div(class="listaOrderPreguntas")
+                        h3 Todas las preguntas
+                        paper-checkbox(id="checkBoxChecarTodo")
+                        div(id="contentItemsListPregunta")
+                        div(class="itemListaOrderPregunta", ng-repeat="pregunta in preguntasNoAsignadasAMaraton") {{pregunta.pre_pregunta}}
+                            paper-checkbox(class="checkPregunta", draggable="true", id="checkP{{pregunta.id_pregunta}}")
+                    div(class="listaOrderPreguntas")
+                        h3 
+                            select
+                                option Seleccione la
+                                option(ng-repeat="etapa in etapas") {{etapa.eta_nombre}}
+                            label  Etapa
 
             div(id="competencia", class="divConfig")
                 h3 competencia

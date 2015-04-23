@@ -134,6 +134,16 @@ io.sockets.on("connection", function(socket){
     io.emit(mensaje);
   });
 
+  socket.on("editarCompetidorEnMaraton", function(mensaje){
+    console.log("Competidor de un maraton editado: "+mensaje);
+    io.emit(mensaje);
+  });
+
+  socket.on("eliminarCompetidorEnMaraton", function(mensaje){
+    console.log("Competidor de un maraton eliminado: "+mensaje);
+    io.emit(mensaje);
+  });
+
 });
 
 
