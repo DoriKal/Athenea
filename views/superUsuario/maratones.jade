@@ -108,7 +108,7 @@ block content
                             paper-checkbox(class="checkPregunta", ng-click="checkPreguntaSeleccion(pregunta.id_pregunta)")
                     div(class="listaOrderPreguntas")
                         h3 
-                            select(id="selectEtapaAsignarAMaraton", ng-model="etapaSeleccionadaPregunta", ng-change="cambiar()")
+                            select(id="selectEtapaAsignarAMaraton", ng-model="etapaSeleccionadaPregunta", ng-change="mostrarPreguntasEtapaMaratonEspecifico()")
                                 option Seleccione la
                                 option(ng-repeat="etapa in etapas", idEtapa="{{etapa.id_etapa}}") {{etapa.eta_nombre}}
                             label  Etapa
