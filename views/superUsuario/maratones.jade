@@ -38,10 +38,10 @@ block content
             paper-button(raised, ng-click="eliminarMaraton()") Eliminar
 
 
-    div(ng-controller="maratonesController")
+    div(ng-controller="maratonesConfigController")
         div(id="modalConfig", hidden)
             div(class="contentConfig")
-                core-icon-button(icon="close", ng-click="cerrarConfiguracionMaraton()", title="Cerrar")
+                core-icon-button(icon="close", ng-controller="maratonesController", ng-click="cerrarConfiguracionMaraton()", title="Cerrar")
             paper-tabs(selected="0", class="tabs-config")
                 paper-tab(class="tabConfigMaratones", config="competidores", tabSelectedConf) Competidores
                 paper-tab(class="tabConfigMaratones", config="preguntas") Preguntas
@@ -51,7 +51,8 @@ block content
             div(id="competidores", class="divConfig")
                 div(class="contentConfig")
                     core-icon-button(icon="add", ng-click="abrirModalAgregarUsuarioMaraton()", title="Agregar un competidor", class="iconAdd")
-                h3(ng-repeat="competidor in competidoresX", class="contentZona") {{competidor.usu_nombre}}
+                button(id="btnInitConfigMaratones", ng-click="getI()")
+                h3(ng-repeat="competidor in competidores", class="contentZona") {{competidor.usu_nombre}}
 
 
                 paper-dialog(heading="Crear un competidor para este maraton", backdrop, id="modalRegCompetidorMaraton")
@@ -74,7 +75,6 @@ block content
 
 
 
-
             div(id="preguntas", class="divConfig")
                 div(class="contentConfig")
                     core-icon-button(icon="add", ng-click="abrirModalAgregarUsuarioMaraton()", title="Agregar un competidor", class="iconAdd")
@@ -86,3 +86,4 @@ block content
 
     script(src="/javascripts/socket.io.js")
     script(src="/javascripts/angular-controllers/maratonesController.js")
+    script(src="/javascripts/angular-controllers/maratonesConfigController.js")

@@ -4,7 +4,6 @@ function maratonesController($scope, $http) {
 	$scope.maratonEditar;
 	$scope.maratonEliminar;
 	$scope.maratonConfiguracion;
-	$scope.competidoresX = [{usu_nombre : "x"}];
 	$scope.socket = io();
 
 	$scope.getMaratones = function(){
@@ -119,27 +118,10 @@ function maratonesController($scope, $http) {
       $scope.transition.setup(target);
     };
 
-    $scope.getCompetidoresEnMaraton = function (id){
-    	url = "/queriesMaratones/getCompetidoresEnMaraton/" + id;
-    	console.log(url);
-    	$http.get(url).success(function (competidores){
-    		console.log(competidores);
-    		$scope.competidoresX = competidores;
-    	});
-    	console.log($scope.competidoresX);
-    }
-
     $scope.abrirConfiguracionMaraton = function (id) {
 	    var target = document.getElementById('modalConfig');
-    	document.getElementById("textoCompetidorIdMaraton").value = id;
-    	$scope.getCompetidoresEnMaraton(id);
+	    target.setAttribute("id_maraton", id);
     	$scope.state.opened = true;
-	    $scope.transition.go(target, $scope.state);
-    };
-
-    $scope.cerrarConfiguracionMaraton = function (){
-	    var target = document.getElementById('modalConfig');
-	    $scope.state.opened = false;
 	    $scope.transition.go(target, $scope.state);
     };
 
@@ -148,6 +130,12 @@ function maratonesController($scope, $http) {
 	    $scope.initTabsConf();
 	    document.getElementById('modalConfig').removeAttribute('hidden');
     });
+
+    $scope.cerrarConfiguracionMaraton = function (){
+	    var target = document.getElementById('modalConfig');
+	    $scope.state.opened = false;
+	    $scope.transition.go(target, $scope.state);
+    };
 
     $scope.initTabsConf = function () {
     	tabs = document.getElementsByClassName("tabConfigMaratones");
@@ -161,31 +149,11 @@ function maratonesController($scope, $http) {
     			tabs[i].click();
     		}
     	};
-
     };
 
     $scope.divDisplayNone = function (arrayDivs) {
     	for ( var i = 0; i < arrayDivs.length; i++) {
     		arrayDivs[i].style.display = "none";
-    	}
-    };
-
-    $scope.abrirModalAgregarUsuarioMaraton = function (){
-    	document.getElementById("modalRegCompetidorMaraton").toggle();
-    };
-
-    $scope.crearCompetidor = function (){
-    	if ($scope.competidorNuevoNombre.length >= 5 &&
-    		$scope.competidorNuevoNombreUsuario.length >= 5){
-    		json = JSON.stringify({
-    			"id_maraton" : document.querySelector("::shadow #textoCompetidorIdMaraton").value,
-    			"usu_nombre" : $scope.competidorNuevoNombre,
-    			"usu_usuario" : $scope.competidorNuevoNombreUsuario
-    		});
-    		$http.post("/queriesMaratones/createCompetidorMaraton/" + encodeURIComponent(json))
-    		.success(function (datos){
-    			alert(datos);
-    		});
     	}
     };
 
