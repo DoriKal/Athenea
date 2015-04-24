@@ -103,7 +103,9 @@ block content
                         h3 Todas las preguntas
                         button(id="btnAgregarPreguntas", disabled, ng-click="registrarPreguntasEnMaraton()") agregar las preguntas
                         //paper-checkbox(id="checkBoxChecarTodo")
-                        div(class="contentItemsListPregunta")
+                        br
+                        br
+                        br
                         div(class="itemListaOrderPregunta", ng-repeat="pregunta in preguntasNoAsignadasAMaraton") {{pregunta.pre_pregunta}}
                             paper-checkbox(class="checkPregunta", ng-click="checkPreguntaSeleccion(pregunta.id_pregunta)")
                     div(class="listaOrderPreguntas")
@@ -112,7 +114,6 @@ block content
                                 option Seleccione la
                                 option(ng-repeat="etapa in etapas", idEtapa="{{etapa.id_etapa}}") {{etapa.eta_nombre}}
                             label  Etapa
-                        br
                         br
                         br
                         br
