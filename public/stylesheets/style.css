@@ -254,3 +254,22 @@ core-icon-button .iconAdd:active,
 	width: 300px;
 	height: 50px;
 }
+
+#btnAgregarPreguntas{
+	position: fixed;
+	border-radius: 50px;
+	background-color: green;
+	color: #fff;
+	width: 37px;
+	height: 37px;
+	border: solid 1px rgba(0, 0, 0, .3);
+	box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, .4);
+	z-index: 3;
+}
+
+#btnAgregarPreguntas[disabled]{
+	background-color: transparent;
+	color: #000;
+	border: solid 1px rgba(0, 0, 0, .3);
+	box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+}

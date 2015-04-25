@@ -145,18 +145,35 @@ function maratonesConfigController ($scope, $http){
 
     $scope.checkPreguntaSeleccion = function(id){
     	posicion = $scope.getPosicionMaratonAsignar(id);
-    	if(posicion == -1){
-    		preguntaAAsignar = $scope.getPreguntaNoAsignadasById(id);
-    		$scope.preguntasNoAsignadasAMaratonAsignar.push(preguntaAAsignar);
-    		if ($scope.preguntasNoAsignadasAMaratonAsignar.length > 0){
-    			document.getElementById("btnAgregarPreguntas").removeAttribute("disabled");
-    		}
-    	}else{
-    		$scope.preguntasNoAsignadasAMaratonAsignar.splice(posicion, 1);
-    		if ($scope.preguntasNoAsignadasAMaratonAsignar.length < 1){
-    			document.getElementById("btnAgregarPreguntas").setAttribute("disabled", "");
-    		}
-    	}
+        preguntaAAsignar = $scope.getPreguntaNoAsignadasById(id);
+        if(posicion == -1){
+            $scope.preguntasNoAsignadasAMaratonAsignar.push(preguntaAAsignar);
+            $scope.addPreguntaTemporal(preguntaAAsignar);
+            if ($scope.preguntasNoAsignadasAMaratonAsignar.length > 0){
+                document.getElementById("btnAgregarPreguntas").removeAttribute("disabled");
+            }
+        }else{
+            $scope.preguntasNoAsignadasAMaratonAsignar.splice(posicion, 1);
+            $scope.removePreguntaTemporal(preguntaAAsignar);
+            if ($scope.preguntasNoAsignadasAMaratonAsignar.length < 1){
+                document.getElementById("btnAgregarPreguntas").setAttribute("disabled", "");
+            }
+        }
+        //$scope.numeroPreguntasAgregar = $scope.preguntasNoAsignadasAMaratonAsignar.length;
+        document.getElementById("numeroPreguntasAgregar").innerHTML = 
+                $scope.preguntasNoAsignadasAMaratonAsignar.length;
+    };
+
+    $scope.addPreguntaTemporal = function(pregunta){
+        $scope.preguntasAsignadasAMaratonYEtapa.push(pregunta);
+    };
+
+    $scope.removePreguntaTemporal = function(pregunta){
+        for (var i = 0; i < $scope.preguntasAsignadasAMaratonYEtapa.length; i++){
+            if ($scope.preguntasAsignadasAMaratonYEtapa[i].id_pregunta == pregunta.id_pregunta){
+                $scope.preguntasAsignadasAMaratonYEtapa.splice(i, 1);
+            }
+        }
     };
 
     $scope.getPreguntaNoAsignadasById = function (id){
@@ -196,14 +213,14 @@ function maratonesConfigController ($scope, $http){
     $scope.getIdEtapaSeleccionada = function(){
     	select = document.getElementById("selectEtapaAsignarAMaraton");
     	indexSelected = select.options.selectedIndex;
-		return select.options[indexSelected].getAttribute("idEtapa")!=null
+		return select.options[indexSelected].getAttribute("idEtapa") != null
 				? select.options[indexSelected].getAttribute("idEtapa") : -1;
     };
 
     $scope.mostrarPreguntasEtapaMaratonEspecifico = function(){
     	select = document.getElementById("selectEtapaAsignarAMaraton");
     	indexSelected = select.options.selectedIndex;
-		idEtapa = select.options[indexSelected].getAttribute("idEtapa")!=null
+		idEtapa = select.options[indexSelected].getAttribute("idEtapa") != null
 				? select.options[indexSelected].getAttribute("idEtapa") : -1;
 		idMaraton = document.getElementById('modalConfig').getAttribute("id_maraton");
 		url = "/queriesPreguntas/getPreguntasAsignadasAMaratonYEtapa/"+idMaraton+"/"+idEtapa;
