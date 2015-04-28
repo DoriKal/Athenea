@@ -16,7 +16,6 @@ var queriesTiposDePreguntas = require("./routes/queries/queriesTiposDePreguntas"
 var queriesPreguntas = require("./routes/queries/queriesPreguntas");
 var queriesEtapas = require("./routes/queries/queriesEtapas");
 
-var test = require("./routes/test/test");
 
 var app = express();
 
@@ -44,7 +43,6 @@ app.use('/queriesTiposDePreguntas', queriesTiposDePreguntas);
 app.use('/queriesPreguntas', queriesPreguntas);
 app.use('/queriesEtapas', queriesEtapas);
 
-app.use('/test', test);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
