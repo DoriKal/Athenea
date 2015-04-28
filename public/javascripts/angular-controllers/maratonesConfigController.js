@@ -94,7 +94,7 @@ function maratonesConfigController ($scope, $http){
 
     $scope.eliminarCompetidor = function (){
     	url = "/queriesMaratones/deleteCompetidorMaraton/" +
-    	 encodeURIComponent(JSON.stringify($scope.competidorEliminar));
+    	encodeURIComponent(JSON.stringify($scope.competidorEliminar));
     	$http.delete(url).success(function(datos){
     		console.log(datos);
     	});
@@ -129,7 +129,6 @@ function maratonesConfigController ($scope, $http){
     	$http.get("/queriesPreguntas/getPreguntasNoAsignadasAMaraton").success(
     		function (jsonPreguntas){
 		    	$scope.preguntasNoAsignadasAMaraton = jsonPreguntas;
-		    	//$scope.addListenerChecarCheckBox();
     		});
     };
 
@@ -228,6 +227,19 @@ function maratonesConfigController ($scope, $http){
 			$scope.preguntasAsignadasAMaratonYEtapa = jsonPreguntas;
 		});
     }
+
+    $scope.getCompetencia = function () {
+        var target = document.getElementById('modalConfig');
+        $scope.getCompetidoresEnMaraton(target.getAttribute("id_maraton"));
+    };
+
+    $scope.activarMaraton = function (idEtapa) {
+        var idMaraton = document.getElementById('modalConfig')
+                        .getAttribute("id_maraton");
+        $http.get().success(function(){
+            
+        });
+    };
 
     $scope.getEtapas();
     $scope.getPreguntasNoAsignadas();

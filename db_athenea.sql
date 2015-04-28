@@ -153,6 +153,19 @@ id_etapa INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 eta_nombre VARCHAR(30)
 );
 
+CREATE TABLE competencia(
+com_id_etapa INT NOT NULL,
+com_id_maraton INT NOT NULL,
+/*
+	1. Para iniciado
+	2. Para terminado
+*/
+com_status INT,
+PRIMARY KEY(com_id_etapa, com_id_maraton),
+FOREIGN KEY(com_id_etapa) REFERENCES etapa(id_etapa),
+FOREIGN KEY(com_id_maraton) REFERENCES maraton(id_maraton)
+);
+
 /**
 *	Asi sabremos que pregunta está en que maratón
 */
@@ -173,6 +186,7 @@ CREATE TABLE respuesta_maratonista(
 rem_id_usuario INT NOT NULL,
 rem_id_pregunta INT NOT NULL,
 rem_respuesta CHAR(1) NOT NULL,
+PRIMARY KEY(rem_id_usuario, rem_id_pregunta),
 FOREIGN KEY(rem_id_usuario) REFERENCES usuario(id_usuario),
 FOREIGN KEY(rem_id_pregunta) REFERENCES pregunta(id_pregunta)
 );
@@ -198,3 +212,10 @@ LEFT JOIN area_conocimiento ac ON p.pre_id_area_conocimiento = ac.id_area_conoci
 LEFT JOIN grado_dificultad  gd ON  p.pre_id_grado_dificultad = gd.id_grado_dificultad)
 LEFT JOIN usuario u ON p.pre_id_autor_reactivo = u.id_usuario);
 
+/*
+	Si un maraton esta iniciado
+*/
+SELECT id_maraton, mar_nombre, com_id_maraton, com_status
+FROM (maraton LEFT JOIN competencia on com_id_maraton=id_maraton)
+LEFT JOIN etapa on com_id_etapa=id_etapa
+WHERE id_maraton=1 AND com_status=1

@@ -38,16 +38,5 @@ function decifrar(palabraCifrada){
 	console.log("Mensaje desifrado correctamente!");
 }
 
-//encriptar(palabraSinCifrar);
-//decifrar(cifradoEsperado);
-
-function encriptar2(palabraRecibida){
-	var cipher 	= crypto.createCipher(openSSLCipherAlgorithm, key);
-	var cifrado = cipher.update(palabraRecibida, "utf8", "hex");
-	cifrado 	+= cipher.final("hex");
-
-	// Si la salida no es la esperada el programa arrojará un AssertionError
-	console.log(cifrado);
-};
-
-encriptar2("¿Es posible crear un red academica de nivel mundial en tan solo 2 meses y sin tener experiencia*signo*?");
+encriptar(palabraSinCifrar);
+decifrar(cifradoEsperado);

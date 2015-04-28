@@ -47,7 +47,7 @@ block content
                 paper-tab(class="tabConfigMaratones", config="presentacion", tabSelectedConf) pregunta
                 paper-tab(class="tabConfigMaratones", config="competidores", ng-click="getCompetidores()") Competidores
                 paper-tab(class="tabConfigMaratones", config="preguntas") Preguntas
-                paper-tab(class="tabConfigMaratones", config="competencia") Competencia
+                paper-tab(class="tabConfigMaratones", config="competencia", ng-click="getCompetencia()") Competencia
             
 
             div(id="presentacion", class="divConfig")
@@ -122,7 +122,9 @@ block content
                         div(class="itemListaOrderPregunta", ng-repeat="pregunta in preguntasAsignadasAMaratonYEtapa") {{pregunta.pre_pregunta}}
 
             div(id="competencia", class="divConfig")
-                h3 competencia
+                div(class="etapaCompetencia", ng-repeat="etapa in etapas", idEtapa="{{etapa.id_etapa}}")
+                    h3 {{etapa.eta_nombre}} etapa
+                    button(ng-click="activarMaraton(etapa.id_etapa)") activar
 
 
     script(src="/javascripts/socket.io.js")

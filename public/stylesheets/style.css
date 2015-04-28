@@ -1,8 +1,4 @@
-body{
-}
-
 body {
-  //padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -272,4 +268,16 @@ core-icon-button .iconAdd:active,
 	color: #000;
 	border: solid 1px rgba(0, 0, 0, .3);
 	box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+}
+
+.etapaCompetencia{
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+	border-radius: 3px;
+	border: solid 1px rgba(0, 0, 0, .3);
+}
+
+.etapaCompetencia h3{
+	text-align: center;
 }
